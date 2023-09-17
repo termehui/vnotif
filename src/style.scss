@@ -1,0 +1,139 @@
+@use "@termehui/termeh/termeh.scss" as T;
+
+.v-notification-container {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    width: 0rem;
+    z-index: 2;
+    top: 0;
+    padding: T.gap("macro");
+    @include T.ltr() {
+        right: 0;
+    }
+    @include T.rtl() {
+        left: 0;
+    }
+
+    &.is-left-top {
+        top: 0;
+        bottom: unset;
+        left: 0;
+        right: unset;
+    }
+
+    &.is-right-top {
+        top: 0;
+        bottom: unset;
+        left: unset;
+        right: 0;
+    }
+
+    &.is-center-top {
+        top: 0;
+        bottom: unset;
+        left: 50%;
+        right: unset;
+        transform: translateX(-50%);
+    }
+
+    &.is-left-bottom {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        right: unset;
+    }
+
+    &.is-right-bottom {
+        top: unset;
+        bottom: 0;
+        left: unset;
+        right: 0;
+    }
+
+    &.is-center-bottom {
+        top: unset;
+        bottom: 0;
+        left: 50%;
+        right: unset;
+        transform: translateX(-50%);
+    }
+
+    &.is-sub {
+        position: absolute;
+        z-index: auto;
+    }
+
+    > .v-notification {
+        display: block;
+        align-self: stretch;
+        justify-self: stretch;
+        user-select: none;
+        font: inherit;
+        color: T.variant("base", "color");
+        background: T.variant("base", "box");
+        box-shadow: T.shadow(0, 3px, T.color("shade"), false),
+            T.shadow(0, 6px, T.color("shade"), true);
+
+        > .content {
+            padding: T.gap("macro");
+
+            > :not(:last-child):not(.is-marginless) {
+                margin-bottom: T.gap("micro");
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            > .header {
+                margin: 0;
+                padding: 0;
+                font-size: 1em;
+                font-weight: bold;
+            }
+
+            > p {
+                margin: 0;
+                padding: 0;
+                font-size: 1em;
+            }
+        }
+
+        > .progress {
+            display: block;
+            height: 1px;
+            background-color: T.color("shade");
+            transition: all 100ms linear;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: T.gap("macro");
+        }
+
+        &.is-left-decorated {
+            border-left: T.var("decorator", "size") solid T.color("shade");
+        }
+
+        &.is-right-decorated {
+            border-right: T.var("decorator", "size") solid T.color("shade");
+        }
+
+        &.is-loading {
+            @include T.overlay(
+                T.var("overlay", "background"),
+                T.var("overlay", "filter")
+            );
+            @include T.loader(
+                T.var("spinner", "size"),
+                T.color("shade"),
+                T.var("decorator", "size")
+            );
+        }
+    }
+}

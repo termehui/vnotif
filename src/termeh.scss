@@ -1,0 +1,194 @@
+@use "sass:math";
+@use "@termehui/termeh/termeh.scss" as T;
+
+.v-notification-container {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    top: 0;
+    padding: T.gap("macro");
+    width: T.var("notification", "width", 20rem);
+    z-index: T.var("notification", "z-index", 2);
+    @include T.ltr() {
+        right: 0;
+    }
+    @include T.rtl() {
+        left: 0;
+    }
+
+    &.is-left-top {
+        top: 0;
+        bottom: unset;
+        left: 0;
+        right: unset;
+    }
+
+    &.is-right-top {
+        top: 0;
+        bottom: unset;
+        left: unset;
+        right: 0;
+    }
+
+    &.is-center-top {
+        top: 0;
+        bottom: unset;
+        left: 50%;
+        right: unset;
+        transform: translateX(-50%);
+    }
+
+    &.is-left-bottom {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        right: unset;
+    }
+
+    &.is-right-bottom {
+        top: unset;
+        bottom: 0;
+        left: unset;
+        right: 0;
+    }
+
+    &.is-center-bottom {
+        top: unset;
+        bottom: 0;
+        left: 50%;
+        right: unset;
+        transform: translateX(-50%);
+    }
+
+    &.is-sub {
+        position: absolute;
+        z-index: auto;
+    }
+
+    > .v-notification {
+        display: block;
+        align-self: stretch;
+        justify-self: stretch;
+        user-select: none;
+        font: inherit;
+        color: T.variant("base", "color");
+        background: T.variant("base", "box");
+        border: T.var("notification", "border", none);
+        box-shadow: T.var(
+            "notification",
+            "shadow",
+            (
+                T.shadow(0, 3px, T.color("shade"), false),
+                T.shadow(0, 6px, T.color("shade"), true)
+            )
+        );
+
+        > .content {
+            padding: T.gap("macro");
+
+            > :not(:last-child):not(.is-marginless) {
+                margin-bottom: T.gap("micro");
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            > .header {
+                margin: 0;
+                padding: 0;
+                font-size: 1em;
+                font-weight: bold;
+            }
+
+            > p {
+                margin: 0;
+                padding: 0;
+                font-size: 1em;
+            }
+        }
+
+        > .progress {
+            display: block;
+            background-color: T.color("shade");
+            height: T.var("notification", "progress", 1px);
+            transition: all 100ms linear;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: T.gap("macro");
+        }
+
+        &.is-left-decorated {
+            border-left: T.var("decorator", "size") solid T.color("shade");
+        }
+
+        &.is-right-decorated {
+            border-right: T.var("decorator", "size") solid T.color("shade");
+        }
+
+        &.is-loading {
+            @include T.overlay(
+                T.var("overlay", "background"),
+                T.var("overlay", "filter")
+            );
+            @include T.loader(
+                T.var("spinner", "size"),
+                T.color("shade"),
+                T.var("decorator", "size")
+            );
+        }
+
+        @each $name, $gap in T.gaps(T.var("notification", "gaps", ())) {
+            &.is-#{$name}-gaped {
+                > .content {
+                    padding: $gap;
+
+                    > :not(:last-child):not(.is-marginless) {
+                        margin-bottom: math.div($gap, 2);
+                    }
+                }
+            }
+        }
+
+        @each $name, $color in T.colors(T.var("notification", "colors", ())) {
+            &.is-#{$name} {
+                border: T.var("notification", "#{$name}-border");
+                box-shadow: T.var("notification", "#{$name}-shadow");
+
+                > .content {
+                    h1,
+                    h2,
+                    h3,
+                    h4,
+                    h5,
+                    h6,
+                    > .header {
+                        color: T.variant($name, "readable");
+                    }
+                }
+
+                > .progress {
+                    background-color: $color;
+                }
+
+                &.is-left-decorated {
+                    border-left-color: $color;
+                }
+
+                &.is-right-decorated {
+                    border-right-color: $color;
+                }
+
+                &.is-loading {
+                    @include T.loader-color($color);
+                }
+            }
+        }
+    }
+}
