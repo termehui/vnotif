@@ -31,9 +31,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import vNotif from "@termehui/vnotif";
 
-createApp(App)
-  .use(vNotif)
-  .mount("#app");
+createApp(App).use(vNotif).mount("#app");
 ```
 
 Install notification container with custom name:
@@ -42,9 +40,7 @@ Install notification container with custom name:
 import { createApp } from "vue";
 import App from "./App.vue";
 import { Container } from "@termehui/vnotif";
-createApp(App)
-  .component("notif-container", Container)
-  .mount("#app");
+createApp(App).component("notif-container", Container).mount("#app");
 ```
 
 ## Options
@@ -104,20 +100,20 @@ export default defineComponent({
         {
           title: "Greeting",
           content: "Welcome to our app!",
-          class: "my-custom-class"
+          class: "my-custom-class",
         },
         {
           duration: 10000,
           onClose: (mode: "auto" | "click" | "action") => {
             console.log(`notification closed by ${mode} mode`);
-          }
+          },
         }
       );
       console.log(`new notification by globalId: ${notificationId} created!`);
     }
 
     return { showNotification };
-  }
+  },
 });
 ```
 
@@ -160,9 +156,7 @@ To create custom notification you need define a normal vue component with notifi
   >
     <div class="content">
       <p>{{ message }}</p>
-      <div v-if="loading">
-        Loading...
-      </div>
+      <div v-if="loading">Loading...</div>
       <p>{{ progress }} <strong>%</strong></p>
       <div class="gaper is-auto">
         <div class="filler"></div>
@@ -193,16 +187,16 @@ export default defineComponent({
   props: {
     globalId: {
       type: String,
-      required: true
+      required: true,
     },
     options: {
       type: Object as () => NotificationOptions,
-      required: true
+      required: true,
     },
     // custom props
     message: String,
     yesText: String,
-    noText: String
+    noText: String,
   },
   setup(props) {
     const container = ref<HTMLElement>(); // template ref
@@ -213,7 +207,7 @@ export default defineComponent({
     );
 
     return { progress, loading, action, close, pause, resume, container };
-  }
+  },
 });
 </script>
 ```
@@ -246,7 +240,7 @@ export default defineComponent({
           message: "are you want to delete record?",
           yesText: "Delete",
           noText: "Cancel",
-          class: "is-error"
+          class: "is-error",
         },
         {
           onAction: async (k, _) => {
@@ -256,13 +250,13 @@ export default defineComponent({
               const res = await doSomeLongAsyncWork();
               return res ? Promise.resolve(true) : Promise.resolve(false);
             }
-          }
+          },
         }
       );
     };
 
     return { showNotification };
-  }
+  },
 });
 ```
 
@@ -274,9 +268,11 @@ for using default styles you can use one of static (CSS) or termeh (SCSS) predef
 
 ```SCSS
 // Static
-@import "@termehui/vnotif/dist/style.css";
+@import "@termehui/vnotif/style.css";
+@import "@termehui/vnotif/dist/style.css"; // old node version
 // Termeh
-@import "@termehui/vnotif/dist/style.scss";
+@import "@termehui/vnotif/style.scss";
+@import "@termehui/vnotif/dist/style.scss";// old node version
 ```
 
 ### Container Styles

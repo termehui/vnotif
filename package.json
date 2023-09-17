@@ -2,7 +2,7 @@
     "private": false,
     "type": "module",
     "license": "ISC",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "@termehui/vnotif",
     "description": "Advanced notification for vue 3",
     "main": "./dist/vnotif.umd.js",
@@ -18,7 +18,9 @@
                 "types": "./dist/vnotif.d.ts",
                 "default": "./dist/vnotif.umd.js"
             }
-        }
+        },
+        "./style.css": "./dist/style.css",
+        "./style.scss": "./dist/style.scss"
     },
     "files": [
         "dist"
